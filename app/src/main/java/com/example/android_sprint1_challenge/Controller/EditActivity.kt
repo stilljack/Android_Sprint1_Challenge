@@ -33,7 +33,6 @@ companion object{
         //set up delete listener -- this more or less works
         btn_delete_movie.setOnClickListener {
             var intentDeleteMovie = Intent()
-            intentDeleteMovie.putExtra("delete", createMovie())
             setResult(Activity.RESULT_CANCELED, intentDeleteMovie)
             finish()
         }
@@ -67,7 +66,6 @@ companion object{
             loaded=0
         }else {
             newMovie = Movie(et_movie_title.text.toString(), check, movieArray.size)
-            index++
         }
         return newMovie
     }

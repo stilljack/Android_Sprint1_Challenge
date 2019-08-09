@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import com.example.android_sprint1_challenge.R
 import android.widget.TextView
 import com.example.android_sprint1_challenge.Application.sprintApplication.Companion.movieArray
@@ -33,7 +32,7 @@ class ListActivity : AppCompatActivity() {
 
     //so tried mostly rewriting this code from last nights intent After hours, but I'm def screwing it up -- working on trying to just ge
     // anything working now
-    fun refreshBookList(){
+    fun refreshList(){
         ll_movie_list.removeAllViews()
 
         //OH SHIT IT'S BECAUSE IT'S INDEX ISN'T IT'S INDEX -- jesus christ I'm dumb
@@ -50,7 +49,7 @@ class ListActivity : AppCompatActivity() {
     }
 
     override fun onPostResume() {
-        refreshBookList()
+        refreshList()
         super.onPostResume()
     }
 
@@ -81,16 +80,16 @@ class ListActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE_ADD_MOVIE && resultCode == Activity.RESULT_OK) {
             val newMovie = data!!.getSerializableExtra("movie") as Movie
                 movieArray.add(newMovie)
-            refreshBookList()
+            refreshList()
         } else if (requestCode ==  REQUEST_CODE_EDIT_MOVIE && resultCode == Activity.RESULT_OK) {
             val editMovie = data!!.getSerializableExtra("movie") as Movie
             movieArray.add(editMovie)
-            refreshBookList()
+            refreshList()
         }
         //so i believe this will trigger if we get delete, shouldn't have to do much
         else if (resultCode == Activity.RESULT_CANCELED) {
             val deleteMovie = data!!.getSerializableExtra("delete") as Movie
-            refreshBookList()
+            refreshList()
         }
     }
 
