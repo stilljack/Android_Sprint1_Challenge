@@ -16,7 +16,7 @@ import kotlinx.android.synthetic.main.activity_edit.view.*
 class EditActivity : AppCompatActivity() {
 companion object{
     var indexCheck:Int = 0
-    var checkName:String= ""
+    var loaded:Int= 0
 }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +51,7 @@ companion object{
             checkBox.isChecked = true
         }
         indexCheck=movie.index
+        loaded = 1
     }
 
 
@@ -60,8 +61,13 @@ companion object{
         if (checkBox.isChecked) {
             check = true
         }
-        newMovie = Movie(et_movie_title.text.toString(), check, index)
+        if (loaded==1) {
+            newMovie = Movie(et_movie_title.text.toString(), check, indexCheck)
+            loaded=0
+        }else {
+            newMovie = Movie(et_movie_title.text.toString(), check, index)
             index++
+        }
         return newMovie
     }
 }

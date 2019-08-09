@@ -61,7 +61,7 @@ class ListActivity : AppCompatActivity() {
             var tvIntent = Intent(this, EditActivity::class.java)
             tvIntent.putExtra("tvMovie", movie)
             startActivityForResult(tvIntent, REQUEST_CODE_EDIT_MOVIE)
-            movieArray.removeAt(newMovieView.id)
+            movieArray.removeAt(movie.index)
 
         }
         return newMovieView
@@ -75,8 +75,7 @@ class ListActivity : AppCompatActivity() {
 
         } else if (requestCode ==  REQUEST_CODE_EDIT_MOVIE && resultCode == Activity.RESULT_OK) {
             val editMovie = data!!.getSerializableExtra("movie") as Movie
-                movieArray.add(editMovie)
-
+            movieArray.add(editMovie)
         }
         //so i believe this will trigger if we get delete, shouldn't have to do much
         else if (resultCode == Activity.RESULT_CANCELED) {
