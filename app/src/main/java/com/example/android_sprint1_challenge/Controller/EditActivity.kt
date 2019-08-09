@@ -9,6 +9,7 @@ import com.example.android_sprint1_challenge.Model.Movie
 import com.example.android_sprint1_challenge.R
 import kotlinx.android.synthetic.main.activity_edit.*
 import com.example.android_sprint1_challenge.Application.sprintApplication.Companion.index
+import kotlinx.android.synthetic.main.activity_edit.view.*
 
 class EditActivity : AppCompatActivity() {
 
@@ -22,17 +23,33 @@ class EditActivity : AppCompatActivity() {
             setResult(RESULT_OK, intentSaveMovie)
             finish()
         }
-       //set up delete listener
+        //set up delete listener
         btn_delete_movie.setOnClickListener {
         }
 
-    }
-    fun createMovie(): Movie {
-        var check:Boolean= false
-        if (checkBox.isChecked) {
-            check= true
+
+        //more shameless theft/implementation from the AH project last night
+        var bundle: Bundle? = intent.extras
+        if (bundle != null) {
+            loadMovie(bundle!!.getSerializable("tvMovie") as Movie)
         }
-        val newMovie = Movie(et_movie_title.text.toString(),check,index)
+
+    }
+
+    fun loadMovie(movie: Movie) {
+        et_movie_title.setText(movie.title)
+        if (movie.watch) {
+            checkBox.isChecked
+        }
+    }
+
+
+    fun createMovie(): Movie {
+        var check: Boolean = false
+        if (checkBox.isChecked) {
+            check = true
+        }
+        val newMovie = Movie(et_movie_title.text.toString(), check, index)
         index++
         Log.i("wtf", "$newMovie[0].index")
         return newMovie

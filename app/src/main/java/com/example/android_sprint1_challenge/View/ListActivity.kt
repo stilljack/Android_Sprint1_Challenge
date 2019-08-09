@@ -17,6 +17,7 @@ class ListActivity : AppCompatActivity() {
     companion object {
         //i honestly don't understand how the const work -- i.e. i can't articulate it but i know it works so... whatever?
         const val REQUEST_CODE_ADD_MOVIE = 1
+        const val REQUEST_CODE_EDIT_MOVIE = 2
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -66,7 +67,11 @@ class ListActivity : AppCompatActivity() {
         newMovieView.text = "${movie.title} -- $watched -- ${movie.index}"
 
         newMovieView.setOnClickListener {
-         // finish this later
+            var tvIntent = Intent(this, EditActivity::class.java)
+            //hey now i finally get what this "get it from the tag" stuff was!! I am definitely learning, just glacially slowly
+            tvIntent.putExtra("tvMovie", movieArray[newMovieView.id])
+            movieArray.removeAt(newMovieView.id)
+            startActivityForResult(tvIntent, REQUEST_CODE_EDIT_MOVIE)
         }
         return newMovieView
     }
@@ -77,6 +82,13 @@ class ListActivity : AppCompatActivity() {
             val newMovie = data!!.getSerializableExtra("movie") as Movie
             movieArray.add(newMovie)
             ll_movie_list.addView(createTextView(newMovie))
+        } else if (requestCode ==  REQUEST_CODE_EDIT_MOVIE && resultCode == Activity.RESULT_OK) {
+            /// todo: Figure out if we're coming back to this properly after lunch and continue
+
+            val newMovie = data!!.getSerializableExtra("movie") as Movie
+            movieArray.add(newMovie)
+            ll_movie_list.addView(createTextView(newMovie))
+
         }
     }
 
