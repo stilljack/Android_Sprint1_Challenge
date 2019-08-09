@@ -10,6 +10,7 @@ import com.example.android_sprint1_challenge.Model.Movie
 import com.example.android_sprint1_challenge.R
 import kotlinx.android.synthetic.main.activity_edit.*
 import com.example.android_sprint1_challenge.Application.sprintApplication.Companion.index
+import com.example.android_sprint1_challenge.Application.sprintApplication.Companion.movieArray
 import com.example.android_sprint1_challenge.View.ListActivity
 import kotlinx.android.synthetic.main.activity_edit.view.*
 
@@ -65,7 +66,7 @@ companion object{
             newMovie = Movie(et_movie_title.text.toString(), check, indexCheck)
             loaded=0
         }else {
-            newMovie = Movie(et_movie_title.text.toString(), check, index)
+            newMovie = Movie(et_movie_title.text.toString(), check, movieArray.size)
             index++
         }
         return newMovie

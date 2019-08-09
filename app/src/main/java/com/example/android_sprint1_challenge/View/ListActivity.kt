@@ -7,13 +7,13 @@ import android.os.Bundle
 import android.util.Log
 import com.example.android_sprint1_challenge.R
 import android.widget.TextView
+import com.example.android_sprint1_challenge.Application.sprintApplication.Companion.movieArray
 import com.example.android_sprint1_challenge.Controller.EditActivity
 import com.example.android_sprint1_challenge.Model.Movie
 import kotlinx.android.synthetic.main.activity_list.*
 
 class ListActivity : AppCompatActivity() {
     //create an array to store our movies
-    var movieArray = mutableListOf<Movie>()
 
     companion object {
         //i honestly don't understand how the const work -- i.e. i can't articulate it but i know it works so... whatever?
@@ -35,9 +35,18 @@ class ListActivity : AppCompatActivity() {
     // anything working now
     fun refreshBookList(){
         ll_movie_list.removeAllViews()
-        for((i,movie) in movieArray.withIndex()){
-            ll_movie_list.addView(createTextView(movie))
+
+        //OH SHIT IT'S BECAUSE IT'S INDEX ISN'T IT'S INDEX -- jesus christ I'm dumb
+        //so lets go through and  reorder them
+        for (i in 0 until movieArray.size) {
+            movieArray[i].index = i
         }
+        //THIS CAN NOT BE THE BEST WAY TO DO THINGS
+        for (i in 0 until movieArray.size) {
+            ll_movie_list.addView(createTextView(movieArray[i]))
+        }
+
+
     }
 
     override fun onPostResume() {
@@ -47,7 +56,7 @@ class ListActivity : AppCompatActivity() {
 
 
     fun createTextView(movie:Movie): TextView {
-        var newMovieView = TextView(this)
+        val newMovieView = TextView(this)
         newMovieView.textSize = 24f
         newMovieView.id = movie.index
         var watched ="init"
@@ -58,7 +67,7 @@ class ListActivity : AppCompatActivity() {
         newMovieView.text = "${movie.title} -- $watched -- ${movie.index}"
 
         newMovieView.setOnClickListener {
-            var tvIntent = Intent(this, EditActivity::class.java)
+            val tvIntent = Intent(this, EditActivity::class.java)
             tvIntent.putExtra("tvMovie", movieArray[newMovieView.id])
             startActivityForResult(tvIntent, REQUEST_CODE_EDIT_MOVIE)
             movieArray.removeAt(newMovieView.id)
@@ -72,14 +81,16 @@ class ListActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE_ADD_MOVIE && resultCode == Activity.RESULT_OK) {
             val newMovie = data!!.getSerializableExtra("movie") as Movie
                 movieArray.add(newMovie)
-
+            refreshBookList()
         } else if (requestCode ==  REQUEST_CODE_EDIT_MOVIE && resultCode == Activity.RESULT_OK) {
             val editMovie = data!!.getSerializableExtra("movie") as Movie
             movieArray.add(editMovie)
+            refreshBookList()
         }
         //so i believe this will trigger if we get delete, shouldn't have to do much
         else if (resultCode == Activity.RESULT_CANCELED) {
             val deleteMovie = data!!.getSerializableExtra("delete") as Movie
+            refreshBookList()
         }
     }
 

@@ -9,6 +9,8 @@ class sprintApplication: Application() {
     //maybe i can avoid using this
      companion object{
         var index:Int = 0
+        var movieArray = mutableListOf<Movie>()
+
     }
 
 }
