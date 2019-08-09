@@ -59,9 +59,9 @@ class ListActivity : AppCompatActivity() {
 
         newMovieView.setOnClickListener {
             var tvIntent = Intent(this, EditActivity::class.java)
-            tvIntent.putExtra("tvMovie", movie)
+            tvIntent.putExtra("tvMovie", movieArray[newMovieView.id])
             startActivityForResult(tvIntent, REQUEST_CODE_EDIT_MOVIE)
-            movieArray.removeAt(movie.index)
+            movieArray.removeAt(newMovieView.id)
 
         }
         return newMovieView
