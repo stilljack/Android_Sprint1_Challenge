@@ -29,14 +29,28 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
-    fun refreshMovieList(){
+    //so tried mostly rewriting this code from last nights intent After hours, but I'm def screwing it up -- working on trying to just ge
+    // anything working now
+    fun refreshBookList(){
+        ll_movie_list.removeAllViews()
+        for((i,movie) in movieArray.withIndex()){
+            ll_movie_list.addView(createTextView(movie))
+        }
+    }
+
+    override fun onPostResume() {
+        refreshBookList()
+        super.onPostResume()
+    }
+
+/*    fun refreshMovieList(){
         ll_movie_list.removeAllViews()
         for (i in 0 .. movieArray.size){
             ll_movie_list.addView(createTextView(movieArray[0]))
         }
     }
 
-/*    override fun onPostResume() {
+*//*    override fun onPostResume() {
         refreshMovieList()
         super.onPostResume()
     }*/
