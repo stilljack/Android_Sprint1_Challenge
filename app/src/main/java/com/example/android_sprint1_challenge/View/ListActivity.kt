@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.android_sprint1_challenge.R
 import android.widget.TextView
 import com.example.android_sprint1_challenge.Controller.EditActivity
@@ -54,14 +55,14 @@ class ListActivity : AppCompatActivity() {
             movie.watch -> watched ="Watched"
             else -> watched ="Not Watched"
         }
-        newMovieView.text = "${movie.title} -- $watched"
+        newMovieView.text = "${movie.title} -- $watched -- ${movie.index}"
 
         newMovieView.setOnClickListener {
             var tvIntent = Intent(this, EditActivity::class.java)
-            //hey now i finally get what this "get it from the tag" stuff was!! I am definitely learning, just glacially slowly
-            tvIntent.putExtra("tvMovie", movieArray[newMovieView.id])
-            movieArray.removeAt(newMovieView.id)
+            tvIntent.putExtra("tvMovie", movie)
             startActivityForResult(tvIntent, REQUEST_CODE_EDIT_MOVIE)
+            movieArray.removeAt(newMovieView.id)
+
         }
         return newMovieView
     }
@@ -70,18 +71,16 @@ class ListActivity : AppCompatActivity() {
         //when we get it back from edit activity...
         if (requestCode == REQUEST_CODE_ADD_MOVIE && resultCode == Activity.RESULT_OK) {
             val newMovie = data!!.getSerializableExtra("movie") as Movie
-            movieArray.add(newMovie)
+                movieArray.add(newMovie)
 
         } else if (requestCode ==  REQUEST_CODE_EDIT_MOVIE && resultCode == Activity.RESULT_OK) {
-            /// todo: Figure out if we're coming back to this properly after lunch and continue
-            val newMovie = data!!.getSerializableExtra("movie") as Movie
-            movieArray.add(newMovie)
-        }
+            val editMovie = data!!.getSerializableExtra("movie") as Movie
+                movieArray.add(editMovie)
 
+        }
         //so i believe this will trigger if we get delete, shouldn't have to do much
-        else if (requestCode ==  REQUEST_CODE_EDIT_MOVIE && resultCode == Activity.RESULT_CANCELED) {
-            //for now blank
-            refreshBookList()
+        else if (resultCode == Activity.RESULT_CANCELED) {
+            val deleteMovie = data!!.getSerializableExtra("delete") as Movie
         }
     }
 

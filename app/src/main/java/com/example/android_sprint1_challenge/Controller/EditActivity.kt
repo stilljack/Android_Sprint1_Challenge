@@ -10,9 +10,14 @@ import com.example.android_sprint1_challenge.Model.Movie
 import com.example.android_sprint1_challenge.R
 import kotlinx.android.synthetic.main.activity_edit.*
 import com.example.android_sprint1_challenge.Application.sprintApplication.Companion.index
+import com.example.android_sprint1_challenge.View.ListActivity
 import kotlinx.android.synthetic.main.activity_edit.view.*
 
 class EditActivity : AppCompatActivity() {
+companion object{
+    var indexCheck:Int = 0
+    var checkName:String= ""
+}
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,17 +31,17 @@ class EditActivity : AppCompatActivity() {
         }
         //set up delete listener -- this more or less works
         btn_delete_movie.setOnClickListener {
-            var intentSaveMovie = Intent()
-            setResult(RESULT_CANCELED, intentSaveMovie)
+            var intentDeleteMovie = Intent()
+            intentDeleteMovie.putExtra("delete", createMovie())
+            setResult(Activity.RESULT_CANCELED, intentDeleteMovie)
             finish()
         }
 
 
         //more shameless theft/implementation from the AH project last night
-        var bundle: Bundle? = intent.extras
+        val bundle: Bundle? = intent.extras
         if (bundle != null) {
-            loadMovie(bundle.getSerializable("tvMovie") as Movie)
-        }
+            loadMovie(bundle.getSerializable("tvMovie") as Movie) }
 
     }
 
@@ -45,16 +50,18 @@ class EditActivity : AppCompatActivity() {
         if (movie.watch) {
             checkBox.isChecked = true
         }
+        indexCheck=movie.index
     }
 
 
     fun createMovie(): Movie {
+        var newMovie = Movie("",true,0)
         var check: Boolean = false
         if (checkBox.isChecked) {
             check = true
         }
-        val newMovie = Movie(et_movie_title.text.toString(), check, index)
-        index++
+        newMovie = Movie(et_movie_title.text.toString(), check, index)
+            index++
         return newMovie
     }
 }
