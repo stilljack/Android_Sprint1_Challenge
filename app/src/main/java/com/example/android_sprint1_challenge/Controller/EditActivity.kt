@@ -24,7 +24,7 @@ class EditActivity : AppCompatActivity() {
             setResult(RESULT_OK, intentSaveMovie)
             finish()
         }
-        //set up delete listener -- this more or less works but there
+        //set up delete listener -- this more or less works
         btn_delete_movie.setOnClickListener {
             var intentSaveMovie = Intent()
             setResult(RESULT_CANCELED, intentSaveMovie)

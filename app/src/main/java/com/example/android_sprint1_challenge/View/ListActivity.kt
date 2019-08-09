@@ -54,7 +54,7 @@ class ListActivity : AppCompatActivity() {
             movie.watch -> watched ="Watched"
             else -> watched ="Not Watched"
         }
-        newMovieView.text = "${movie.title} -- $watched -- ${movie.index}"
+        newMovieView.text = "${movie.title} -- $watched"
 
         newMovieView.setOnClickListener {
             var tvIntent = Intent(this, EditActivity::class.java)
@@ -71,17 +71,17 @@ class ListActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE_ADD_MOVIE && resultCode == Activity.RESULT_OK) {
             val newMovie = data!!.getSerializableExtra("movie") as Movie
             movieArray.add(newMovie)
-            ll_movie_list.addView(createTextView(newMovie))
+
         } else if (requestCode ==  REQUEST_CODE_EDIT_MOVIE && resultCode == Activity.RESULT_OK) {
             /// todo: Figure out if we're coming back to this properly after lunch and continue
-
             val newMovie = data!!.getSerializableExtra("movie") as Movie
             movieArray.add(newMovie)
-            ll_movie_list.addView(createTextView(newMovie))
         }
+
         //so i believe this will trigger if we get delete, shouldn't have to do much
-        else {
+        else if (requestCode ==  REQUEST_CODE_EDIT_MOVIE && resultCode == Activity.RESULT_CANCELED) {
             //for now blank
+            refreshBookList()
         }
     }
 
