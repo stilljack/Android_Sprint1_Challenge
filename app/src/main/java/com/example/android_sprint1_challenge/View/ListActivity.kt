@@ -33,7 +33,7 @@ class ListActivity : AppCompatActivity() {
         var newMovieView = TextView(this)
         newMovieView.textSize = 24f
         newMovieView.id = index
-        newMovieView.text = book.title
+        newMovieView.text = movie.title
 
         newMovieView.setOnClickListener {
          // finish this later
@@ -45,7 +45,7 @@ class ListActivity : AppCompatActivity() {
         //when we get it back from edit activity...
         if (requestCode == REQUEST_CODE_ADD_MOVIE && resultCode == Activity.RESULT_OK) {
             val newMovie = data!!.getSerializableExtra("movie") as Movie
-            movieList.add(newResultMovie)
+            movieArray.add(newMovie)
         }
     }
 
