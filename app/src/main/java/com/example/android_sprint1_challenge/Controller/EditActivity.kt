@@ -1,5 +1,6 @@
 package com.example.android_sprint1_challenge.Controller
 
+import android.app.Activity
 import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -23,15 +24,18 @@ class EditActivity : AppCompatActivity() {
             setResult(RESULT_OK, intentSaveMovie)
             finish()
         }
-        //set up delete listener
+        //set up delete listener -- this more or less works but there
         btn_delete_movie.setOnClickListener {
+            var intentSaveMovie = Intent()
+            setResult(RESULT_CANCELED, intentSaveMovie)
+            finish()
         }
 
 
         //more shameless theft/implementation from the AH project last night
         var bundle: Bundle? = intent.extras
         if (bundle != null) {
-            loadMovie(bundle!!.getSerializable("tvMovie") as Movie)
+            loadMovie(bundle.getSerializable("tvMovie") as Movie)
         }
 
     }
@@ -39,7 +43,7 @@ class EditActivity : AppCompatActivity() {
     fun loadMovie(movie: Movie) {
         et_movie_title.setText(movie.title)
         if (movie.watch) {
-            checkBox.isChecked
+            checkBox.isChecked = true
         }
     }
 
@@ -51,7 +55,6 @@ class EditActivity : AppCompatActivity() {
         }
         val newMovie = Movie(et_movie_title.text.toString(), check, index)
         index++
-        Log.i("wtf", "$newMovie[0].index")
         return newMovie
     }
 }

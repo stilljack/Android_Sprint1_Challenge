@@ -44,17 +44,7 @@ class ListActivity : AppCompatActivity() {
         super.onPostResume()
     }
 
-/*    fun refreshMovieList(){
-        ll_movie_list.removeAllViews()
-        for (i in 0 .. movieArray.size){
-            ll_movie_list.addView(createTextView(movieArray[0]))
-        }
-    }
 
-*//*    override fun onPostResume() {
-        refreshMovieList()
-        super.onPostResume()
-    }*/
     fun createTextView(movie:Movie): TextView {
         var newMovieView = TextView(this)
         newMovieView.textSize = 24f
@@ -88,7 +78,10 @@ class ListActivity : AppCompatActivity() {
             val newMovie = data!!.getSerializableExtra("movie") as Movie
             movieArray.add(newMovie)
             ll_movie_list.addView(createTextView(newMovie))
-
+        }
+        //so i believe this will trigger if we get delete, shouldn't have to do much
+        else {
+            //for now blank
         }
     }
 
