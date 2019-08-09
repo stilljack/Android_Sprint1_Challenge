@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.example.android_sprint1_challenge.Model.Movie
 import com.example.android_sprint1_challenge.R
 import kotlinx.android.synthetic.main.activity_edit.*
@@ -17,9 +18,7 @@ class EditActivity : AppCompatActivity() {
         //set up save listener
         btn_save_movie.setOnClickListener {
             var intentSaveMovie = Intent()
-            intentSaveMovie.putExtra("movie", createMovie().title)
-            intentSaveMovie.putExtra("movie", createMovie().watch)
-            intentSaveMovie.putExtra("movie", createMovie().index)
+            intentSaveMovie.putExtra("movie", createMovie())
             setResult(RESULT_OK, intentSaveMovie)
             finish()
         }
@@ -33,7 +32,9 @@ class EditActivity : AppCompatActivity() {
         if (checkBox.isChecked) {
             check= true
         }
-        var newMovie = Movie(et_movie_title.text.toString(),check,index)
+        val newMovie = Movie(et_movie_title.text.toString(),check,index)
+        index++
+        Log.i("wtf", "$newMovie[0].index")
         return newMovie
     }
 }

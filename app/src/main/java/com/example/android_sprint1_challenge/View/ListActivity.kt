@@ -29,11 +29,27 @@ class ListActivity : AppCompatActivity() {
         }
     }
 
-    fun createTextView(movie:Movie, index: Int): TextView {
+    fun refreshMovieList(){
+        ll_movie_list.removeAllViews()
+        for (i in 0 .. movieArray.size){
+            ll_movie_list.addView(createTextView(movieArray[0]))
+        }
+    }
+
+/*    override fun onPostResume() {
+        refreshMovieList()
+        super.onPostResume()
+    }*/
+    fun createTextView(movie:Movie): TextView {
         var newMovieView = TextView(this)
         newMovieView.textSize = 24f
-        newMovieView.id = index
-        newMovieView.text = movie.title
+        newMovieView.id = movie.index
+        var watched ="init"
+        when {
+            movie.watch -> watched ="Watched"
+            else -> watched ="Not Watched"
+        }
+        newMovieView.text = "${movie.title} -- $watched -- ${movie.index}"
 
         newMovieView.setOnClickListener {
          // finish this later
@@ -46,6 +62,7 @@ class ListActivity : AppCompatActivity() {
         if (requestCode == REQUEST_CODE_ADD_MOVIE && resultCode == Activity.RESULT_OK) {
             val newMovie = data!!.getSerializableExtra("movie") as Movie
             movieArray.add(newMovie)
+            ll_movie_list.addView(createTextView(newMovie))
         }
     }
 
